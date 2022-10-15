@@ -1,13 +1,15 @@
 import  mm from "../../images/download.jpg"
 import Search from "../../component/Search";
 import Table from "../../component/Table";
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
+//import {contactActions} from "../../component/context/contact.reducer";
+import { ContactContext } from '../../component/context/Contact.provider';
 import "./home.style.css"
 
 import { Link } from "react-router-dom";
 
-const Home = ({contacts,setContacts,setFormData, setFormStatus,info,setInfo}) => {
-  
+const Home = ({ setFormStatus}) => {
+  const { contacts } = useContext(ContactContext);
   const[favoriteStatus,setFavoriteStatus]=useState("all")
   const[filtered,setFiltered]=useState([])
   const[search,setSearch]=useState("")
@@ -72,7 +74,7 @@ const Home = ({contacts,setContacts,setFormData, setFormStatus,info,setInfo}) =>
             </thead>
             <tbody>
               {filtered.filter(item=>item.name.toLowerCase().includes(search)).map((contact) => (
-                <Table contacts={contacts} setContacts={setContacts}  setFormData={setFormData} setFormStatus={setFormStatus} contact={contact} info={info} setInfo={setInfo} />
+                <Table  key={contact.id}   contact={contact}  />
               ))}
             </tbody>
           </table>

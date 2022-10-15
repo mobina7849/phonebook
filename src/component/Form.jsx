@@ -1,35 +1,53 @@
-import React from 'react';
+
 import './Form.style.css'
 import phonebook from "../images/phonebook.jpg";
 import {Link} from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
-const Form = ({formData,setFormData,formStatus,setFormStatus,contacts,setContacts}) => {
+import React, { useContext,useState } from "react";
+import {contactActions} from "./context/contact.reducer";
+import { ContactContext } from './context/Contact.provider';
+const Form = ({formm,setFormm,formStatus,setFormStatus}) => {
+    const { contacts,contactDispatch } = useContext(ContactContext);
+    const [formData, setFormData] = useState({
+      id: "0",
+      userProfile: "img",
+      name: "",
+      email: "",
+      phone: "",
+      age: "",
+      country: "",
+      favorite: false,
+    });
+
     const nav=useNavigate()
     const handleInputs = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormm({ ...formm, [e.target.name]: e.target.value });
       };
     const handleSubmit = (e) => {
         e.preventDefault();
         //console.log("kjhgfd")
         if(formStatus==="add"){
-           setContacts([
-          ...contacts,
-          {
-            id: Math.floor(Math.random() *1000),
-            userProfile:"",
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            age: formData.age,
-            country: formData.country,
-            favorite: false,
-          },
-          ]);
+          // setContacts([
+          //...contacts,
+         // {
+           // id: Math.floor(Math.random() *1000),
+            //userProfile:"",
+            //name: formData.name,
+            //email: formData.email,
+            //phone: formData.phone,
+            //age: formData.age,
+            //country: formData.country,
+            //favorite: false,
+          //},
+          //]);
+          contactDispatch({type:contactActions.add,payload:{...formm, id:Math.floor(Math.random() *1000),favorite: false}})
+
         }else{
-          setContacts(contacts.map(item=>(item.id===formData.id ?formData : item))
-          )
+          //setContacts(contacts.map(item=>(item.id===formData.id ?formData : item)))
+          contactDispatch({type:contactActions.update,payload:formm})
+          
         }
-        setFormData({
+        setFormm({
           name: "",
           email: "",
           phone: "",
@@ -51,7 +69,7 @@ const Form = ({formData,setFormData,formStatus,setFormStatus,contacts,setContact
             type="text"
             className="input fa"
             name="name"
-            value={formData.name}
+            value={formm.name}
             placeholder="&#xf007; Name"
           />
           <input
@@ -59,7 +77,7 @@ const Form = ({formData,setFormData,formStatus,setFormStatus,contacts,setContact
             type="email"
             className="input fa"
             name="email"
-            value={formData.email}
+            value={formm.email}
             placeholder="&#xf0e0; @Email"
           />
           <input
@@ -67,7 +85,7 @@ const Form = ({formData,setFormData,formStatus,setFormStatus,contacts,setContact
             type="number"
             className="input fa"
             name="phone"
-            value={formData.phone}
+            value={formm.phone}
             placeholder="&#xf3cd; Phone Number"
           />
           <input
@@ -75,7 +93,7 @@ const Form = ({formData,setFormData,formStatus,setFormStatus,contacts,setContact
             type="number"
             className="input fa"
             name="age"
-            value={formData.age}
+            value={formm.age}
             placeholder="&#xf073; Age"
           />
           <input
@@ -83,7 +101,7 @@ const Form = ({formData,setFormData,formStatus,setFormStatus,contacts,setContact
             type="text"
             className="input fa"
             name="country"
-            value={formData.country}
+            value={formm.country}
             placeholder="&#xf024; Country"
           />
           <button   type="submit" className="btnSubmit">

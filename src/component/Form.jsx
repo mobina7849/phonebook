@@ -6,8 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import React, { useContext,useState } from "react";
 import {contactActions} from "./context/contact.reducer";
 import { ContactContext } from './context/Contact.provider';
+import { addContact, updateContact } from './redux/reducer/contact.slice';
+import {useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
 const Form = ({formm,setFormm,formStatus,setFormStatus}) => {
-    const { contacts,contactDispatch } = useContext(ContactContext);
+   // const { contacts,contactDispatch } = useContext(ContactContext);
+   const contacts=useSelector(state=>state.contacts)
+   const dispatch=useDispatch()
     const [formData, setFormData] = useState({
       id: "0",
       userProfile: "img",
@@ -40,11 +45,13 @@ const Form = ({formm,setFormm,formStatus,setFormStatus}) => {
             //favorite: false,
           //},
           //]);
-          contactDispatch({type:contactActions.add,payload:{...formm, id:Math.floor(Math.random() *1000),favorite: false}})
-
+          //contactDispatch({type:contactActions.add,payload:{...formm, id:Math.floor(Math.random() *1000),favorite: false}})
+          dispatch(addContact({...formm, id:Math.floor(Math.random() *1000),favorite: false}))
         }else{
           //setContacts(contacts.map(item=>(item.id===formData.id ?formData : item)))
-          contactDispatch({type:contactActions.update,payload:formm})
+          //contactDispatch({type:contactActions.update,payload:formm})
+          //dispatchEvent(addContact(formm))
+          dispatch(updateContact(formm))
           
         }
         setFormm({

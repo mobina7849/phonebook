@@ -2,14 +2,16 @@ import  mm from "../../images/download.jpg"
 import Search from "../../component/Search";
 import Table from "../../component/Table";
 import React, { useState,useEffect,useContext } from "react";
+import { useSelector } from "react-redux";
 //import {contactActions} from "../../component/context/contact.reducer";
 import { ContactContext } from '../../component/context/Contact.provider';
 import "./home.style.css"
 
 import { Link } from "react-router-dom";
 
-const Home = ({ setFormStatus}) => {
-  const { contacts } = useContext(ContactContext);
+const Home = () => {
+ // const { contacts } = useContext(ContactContext);
+ const contacts=useSelector(state=>state.contacts)
   const[favoriteStatus,setFavoriteStatus]=useState("all")
   const[filtered,setFiltered]=useState([])
   const[search,setSearch]=useState("")

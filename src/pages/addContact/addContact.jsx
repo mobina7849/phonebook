@@ -1,9 +1,11 @@
 import React,{useContext,useState,useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import { ContactContext } from '../../component/context/Contact.provider';
-import Form from "../../component/Form"
+import Form from "../../component/Form";
+import { useSelector } from 'react-redux';
 const AddContact = () => {
-    const { contacts } = useContext(ContactContext);
+    //const { contacts } = useContext(ContactContext);
+    const contacts=useSelector(state=>state.contacts)
     const[formStatus,setFormStatus]=useState('')
     const [formm , setFormm]=useState(    {  id: "0",
     userProfile: "img",

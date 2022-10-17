@@ -3,12 +3,16 @@ import { Link } from 'react-router-dom';
 import React, { useContext } from "react";
 import {contactActions} from "./context/contact.reducer";
 import { ContactContext } from './context/Contact.provider';
+import { useDispatch } from 'react-redux';
+import { checkContact, removeContact } from './redux/reducer/contact.slice';
 const Table = ({contact }) => {
-  const {contactDispatch } = useContext(ContactContext);
+  //const {contactDispatch } = useContext(ContactContext);
+  const dispatch = useDispatch();
     const handleDelete = (id) => {
         if (window.confirm("Do you want to delete this contact?")) {
           //setContacts(contacts.filter((contact) => contact.id !== id));
-          contactDispatch({type:contactActions.delete,payload:{id:id}})
+          //contactDispatch({type:contactActions.delete,payload:{id:id}})
+          dispatch(removeContact(id))
         }
       };
     const handleFavorite = (id) => {
@@ -19,7 +23,8 @@ const Table = ({contact }) => {
               //: contact
           //)
         //);
-        contactDispatch({type:contactActions.check,payload:{id:id}})
+       // contactDispatch({type:contactActions.check,payload:{id:id}})
+       dispatch(checkContact(id))
 
       };
     
